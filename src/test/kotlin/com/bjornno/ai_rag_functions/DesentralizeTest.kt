@@ -14,7 +14,7 @@ class DesentralizeTest {
         objectMapper.registerModules(KotlinModule())
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         val content = "{\"content\":\"joke theme\"}"
-        val value = objectMapper.readValue(content, Request::class.java)
+        val value = objectMapper.readValue(content, RequestJokeTheme::class.java)
         assertEquals("joke theme", value.content)
 
     }

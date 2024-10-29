@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @JsonClassDescription("Request for the example function")
 data class RequestJokeTheme @JsonCreator
 constructor (
-    @JsonProperty @JsonPropertyDescription("Theme for the joke") val requestedTheme: String = "test"
+    @JsonProperty @JsonPropertyDescription("Theme for the joke") val requestedTheme: Int = 0
 )
 
 @JsonClassDescription("Request for the driver")
@@ -59,23 +59,23 @@ class JokeThemeResolver: java.util.function.Function<RequestJokeTheme, Response>
     override fun apply(t: RequestJokeTheme): Response {
         LoggerFactory.getLogger(JokeThemeResolver::class.java).info("Joke theme resolver called with wanted theme ${t.requestedTheme}")
         return when(t.requestedTheme) {
-            "boat" -> Response("The joke should be about a boat, but I also need to know the name of the boat captain")
-            "car" -> Response("The joke should be about a car, but I also need to know the name of the car driver")
-            "motorcycle" -> Response("The joke should be about a motorcycle, but I also need to know the name of the motorcycle driver")
+            1 -> Response("The joke should be about a boat, but I also need to know the name of the boat captain")
+            2 -> Response("The joke should be about a car, but I also need to know the name of the car driver")
+            3 -> Response("The joke should be about a motorcycle, but I also need to know the name of the motorcycle driver")
             else -> Response("The joke should be about a boat, but I also need to know the name of the boat captain")
         }
     }
 }
 
-fun interface Jokey: (String) -> String
+fun interface Jokey: (Int) -> String
 
 @Controller
 class Controller(val builder: ChatClient.Builder): Jokey {
     @GetMapping("/")
     @ResponseBody
-    override fun invoke(@RequestParam wantedTheme: String): String {
+    override fun invoke(@RequestParam theme: Int): String {
         val chatClient: ChatClient = builder.build()
-        val prompt = "Tell me a joke based on $wantedTheme."
+        val prompt = "Tell me a joke with theme number $theme."
         val logger = LoggerFactory.getLogger(Controller::class.java)
         logger.info("Sending prompt: $prompt")
         val response: String = chatClient.prompt(prompt)

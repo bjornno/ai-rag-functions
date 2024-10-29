@@ -41,7 +41,7 @@ data class Response(val content: String)
 class BoatDriverResolver: LLMFunction<RequestDriver, Response> {
     override fun invoke(t: RequestDriver): Response {
         LoggerFactory.getLogger(BoatDriverResolver::class.java).info("Boat captain resolver called")
-        return Response("The boat captains name is Jack Sparrow")
+        return Response("Jack Sparrow")
     }
 }
 
@@ -51,7 +51,7 @@ class BoatDriverResolver: LLMFunction<RequestDriver, Response> {
 class CarDriverResolver: LLMFunction<RequestDriver, Response> {
     override fun invoke(t: RequestDriver): Response {
         LoggerFactory.getLogger(CarDriverResolver::class.java).info("Car driver resolver called")
-        return Response("The car driver is called Michael Schumacher")
+        return Response("Michael Schumacher")
     }
 }
 
@@ -60,7 +60,7 @@ class CarDriverResolver: LLMFunction<RequestDriver, Response> {
 class MotorcycleDriverResolver: LLMFunction<RequestDriver, Response> {
     override fun invoke(t: RequestDriver): Response {
         LoggerFactory.getLogger(MotorcycleDriverResolver::class.java).info("Motorcycle driver resolver called")
-        return Response("The motorcycle driver is called Valentino Rossi")
+        return Response("Valentino Rossi")
     }
 }
 
@@ -69,12 +69,7 @@ class MotorcycleDriverResolver: LLMFunction<RequestDriver, Response> {
 class JokeThemeResolver: LLMFunction<RequestJokeTheme, Response> {
     override fun invoke(t: RequestJokeTheme): Response {
         LoggerFactory.getLogger(JokeThemeResolver::class.java).info("Joke theme resolver called with wanted theme ${t.requestedTheme}")
-        return when(t.requestedTheme) {
-            1 -> Response("The joke should be about a boat, but I also need to know the name of the boat captain")
-            2 -> Response("The joke should be about a car, but I also need to know the name of the car driver")
-            3 -> Response("The joke should be about a motorcycle, but I also need to know the name of the motorcycle driver")
-            else -> Response("The joke should be about a boat, but I also need to know the name of the boat captain")
-        }
+        return Response(mapOf(1 to "Boat", 2 to "Car", 3 to "Motorcycle").getOrDefault(t.requestedTheme, "Boat"))
     }
 }
 

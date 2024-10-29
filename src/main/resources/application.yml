@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: 'ai-rag-functions'
+  ai:
+    openai:
+      api-key: '***OPENAI_API_KEY***'
+

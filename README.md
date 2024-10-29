@@ -1,6 +1,6 @@
 Example spring boot project using spring-ai, function calling with kotlin.
 
-First provide your spring.ai.openai.api-key in application.properties. 
+First provide your spring.ai.openai.api-key in application.yml. 
 Then start the app and go to http://localhost:8080/?theme=2 (theme could be 1, 2 or 3)
 
 It register 4 functions (get theme for joke, get boat captain, get the car driver or the motorcycle driver)
